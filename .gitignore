@@ -1,0 +1,65 @@
+# =========================
+# Unity
+# =========================
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+UserSettings/
+MemoryCaptures/
+Recordings/
+
+# Asset cache
+Assets/**/Editor/UserBuildSettings.asset
+
+# =========================
+# Visual Studio / C#
+# =========================
+.vs/
+*.user
+*.userprefs
+*.suo
+*.cache
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+*.VC.VC.opendb
+
+# Build outputs
+[Bb]in/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+
+# =========================
+# NuGet
+# =========================
+Packages/*
+!Packages/manifest.json
+!Packages/packages-lock.json
+
+# =========================
+# Logs & temp
+# =========================
+*.log
+*.tmp
+*.bak
+*.swp
+
+# =========================
+# OS
+# =========================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# =========================
+# Optional: Ignore generated C# project files
+# (BỎ comment nếu bạn không muốn commit file .csproj/.sln)
+# =========================
+# *.csproj
+# *.sln
