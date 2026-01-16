@@ -8,50 +8,51 @@ public class Ball : MonoBehaviour
 
 
     [Header("Actions")]
-    public static Action onCollisionWithball;
+    public static Action< Ball, Collision> onCollisionWithball;
 
 
 
     [Header("Setting")]
-    private bool isCollied;
-    private bool canbeDestroyed;
+    [SerializeField] private float lifeTime = 10f;
+    private bool isColliedWithPlayer;
+    private Coroutine lifeTimecoroutine;
+
+
+    [Header("Data")]
+    [SerializeField] private int playerId;
+    public int lastPlayerTouchball;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        lifeTimecoroutine = StartCoroutine(TimeLife());
     }
-
-    // Update is called once per frame
-    void Update()
+    //=============================XU LY VA CHAM==========================
+    private void OnCollisionEnter(Collision collision)  
     {
-        if (isCollied)
-        {   
-            StartCoroutine(TimeLife());
-        }
-        StartCoroutine(TimeLife());
-        
+        ManageCollison(collision);
     }
 
+    /*
+     Logic xu ly nhu sau: 
+    1. Khi ball va cham voi doi tuong khac, se kiem tra doi tuong do co component Collision khong
+    2.neu co thi goi collider cua doi tuong do la TargetCollider
+    3. sau do se goi su kien onCollisionWithball, truyen doi tuong ball(this) va doi tuong bi va cham(TargetCollider) vao
+    4. Cac doi tuong lang nghe su kien nay co the xu ly logic rieng cua minh trong ham xu ly su kien
+     */
     private void ManageCollison(Collision collision)
     {
-        isCollied = true;
-        if(collision.collider.TryGetComponent<Wall>(out Wall wall))
-        {
-            onCollisionWithball?.Invoke();
-            canbeDestroyed = true;
-        }
+        if (collision.collider.TryGetComponent<Collision>(out Collision TargetCollider))
+        {   
+            onCollisionWithball?.Invoke(this, TargetCollider.collider);
+        } 
     }
-
+    /*=============Thoi gian ton tai cua ball trong scene===================*/
     IEnumerator TimeLife()
     {
-        yield return new WaitForSeconds(10f);
-        DeleteTheBall();
+        yield return new WaitForSeconds(lifeTime);
+        Destroy(gameObject);  
     }
-    public void DeleteTheBall()
-    {
-        Destroy(gameObject);
-    }
-
 
 }

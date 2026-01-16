@@ -70,3 +70,5 @@ desktop.ini
 
 # Kinect / OpenNI runtime
 NuiDatabase/
+# OpenNI / Kinect runtime
+OpenNI2/

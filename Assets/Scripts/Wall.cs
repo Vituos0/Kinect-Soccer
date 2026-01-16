@@ -9,7 +9,6 @@ public class Wall : MonoBehaviour
    // [Header("Settings")]
 
     //[Header("Components")]
-    private Ball ball;
 
     void Awake()
     {
@@ -20,12 +19,12 @@ public class Wall : MonoBehaviour
     {
         Ball.onCollisionWithball -= HandleBallCollision;
     }  
-
-
-
-    private void HandleBallCollision()
+    private void HandleBallCollision(Ball ball, Collider TargetCollider)
     {
-        Debug.Log("GOAL!");
-        ball.DeleteTheBall();
+        if(TargetCollider == gameObject)
+        {
+            Debug.Log("GOAL!");
+            Destroy(ball.gameObject);     
+        }
     }
 }
