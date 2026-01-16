@@ -63,3 +63,10 @@ desktop.ini
 # =========================
 # *.csproj
 # *.sln
+# Visual Studio / Unity generated
+.vsconfig
+*.csproj
+*.sln
+
+# Kinect / OpenNI runtime
+NuiDatabase/
