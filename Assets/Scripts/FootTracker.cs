@@ -10,6 +10,7 @@ public class FootTracker : MonoBehaviour
     {
        // Lấy Rigidbody để xử lý va chạm vật lý 
         rb = GetComponent<Rigidbody>();
+        
         if (rb != null)
         {
             rb.isKinematic = true; // Chân di chuyển theo Kinect, không bị vật lý đẩy ngược lại

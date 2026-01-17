@@ -1,57 +1,49 @@
-using System;
+﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-
-
     [Header("Actions")]
-    public static Action onCollisionWithball;
+    public static Action<Ball> onCollisionWithBall;
 
+    [Header("Settings")]
+    private bool isDestroyed = false;
 
+    private Coroutine lifeCoroutine;
 
-    [Header("Setting")]
-    private bool isCollied;
-    private bool canbeDestroyed;
-
-    // Start is called before the first frame update
     void Start()
     {
-        
+        // Bắt đầu đếm thời gian sống 10s ngay khi spawn
+        lifeCoroutine = StartCoroutine(TimeLife());
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnCollisionEnter(Collision collision)
     {
-        if (isCollied)
-        {   
-            StartCoroutine(TimeLife());
-        }
-        StartCoroutine(TimeLife());
-        
-    }
+        if (isDestroyed) return;
 
-    private void ManageCollison(Collision collision)
-    {
-        isCollied = true;
-        if(collision.collider.TryGetComponent<Wall>(out Wall wall))
+        if (collision.collider.TryGetComponent<Wall>(out Wall wall))
         {
-            onCollisionWithball?.Invoke();
-            canbeDestroyed = true;
+            onCollisionWithBall?.Invoke(this);
+            DestroyBall();
         }
     }
 
     IEnumerator TimeLife()
     {
         yield return new WaitForSeconds(10f);
-        DeleteTheBall();
+        DestroyBall();
     }
-    public void DeleteTheBall()
+
+    private void DestroyBall()
     {
+        if (isDestroyed) return;
+
+        isDestroyed = true;
+
+        if (lifeCoroutine != null)
+            StopCoroutine(lifeCoroutine);
+
         Destroy(gameObject);
     }
-
-
 }
