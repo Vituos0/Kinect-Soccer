@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -69,8 +69,17 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+        // 1. Reset điểm số về 0
+        playerScores[0] = 0;
+        playerScores[1] = 0;
+
+        // 2. Thiết lập thời gian và trạng thái
         currentTime = gameDuration;
         isGameActive = true;
+
+        // 3. Thông báo cho UI cập nhật lại số 0
+        onScoreChanged?.Invoke(0, 0);
+        onScoreChanged?.Invoke(1, 0);
     }
 
 
