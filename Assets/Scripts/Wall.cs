@@ -12,16 +12,16 @@ public class Wall : MonoBehaviour
 
     void Awake()
     {
-        Ball.onCollisionWithball += HandleBallCollision;
+        Ball.onCollisionWithball += HandleBallTouchCollision;
     }
 
     private void OnDestroy()
     {
-        Ball.onCollisionWithball -= HandleBallCollision;
+        Ball.onCollisionWithball -= HandleBallTouchCollision;
     }  
-    private void HandleBallCollision(Ball ball, Collider TargetCollider)
+    private void HandleBallTouchCollision(Ball ball, Collision TargetCollider)
     {
-        if(TargetCollider == gameObject)
+        if(TargetCollider.gameObject  == gameObject)
         {
             Debug.Log("GOAL!");
             Destroy(ball.gameObject);     

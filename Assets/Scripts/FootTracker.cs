@@ -2,9 +2,10 @@
 
 public class FootTracker : MonoBehaviour
 {
-    public int playerIndex = 0; // Người chơi đầu tiên  
+    public int playerIndex = 0; // Người chơi đầu tiên
     public int jointType = 18;  // Khớp AnkleRight (Cổ chân phải)  
     private Rigidbody rb;
+    public long UserId { get; private set; }   
 
     void Start()
     {
@@ -22,7 +23,7 @@ public class FootTracker : MonoBehaviour
         if (manager && manager.IsInitialized())
         {
             long userId = manager.GetUserIdByIndex(playerIndex);
-            if (userId != 0)
+            if (userId != 0) 
             {
                // Lấy vị trí cổ chân phải từ Kinect  
                 Vector3 footPos = manager.GetJointPosition(userId, jointType);

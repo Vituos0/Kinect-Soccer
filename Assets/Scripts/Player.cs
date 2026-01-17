@@ -1,3 +1,4 @@
+using nuitrack;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,26 +9,26 @@ public class Player : MonoBehaviour
 {
 
     [Header("Data")]
-    [SerializeField] private int playerId;
-    public int lastPlayerTouchball; // Luu id nguoi choi cuoi cung cham vao ball
+    public int playerId;
+    long lastPlayerTouchball; // Luu id nguoi choi cuoi cung cham vao ball
     public int playerScore;
-    public int scores; 
+    public int scores;
+    public FootTracker footTracker;
+
 
     private void Awake()
     {
         Ball.onCollisionWithball += HandleBallCollisionWithPlayer;
     }
-
     private void OnDestroy()
     {
         Ball.onCollisionWithball -= HandleBallCollisionWithPlayer;
     }
-
-    private void HandleBallCollisionWithPlayer(Ball ball, Collider TargetCollider)
+    private void HandleBallCollisionWithPlayer(Ball ball, Collision  TargetCollider)
     {
-        if(TargetCollider == gameObject)
+        if(TargetCollider.collider == gameObject)
         {   
-            lastPlayerTouchball = playerId;
+            lastPlayerTouchball = footTracker.UserId;
             Debug.Log("Player"+ playerId +"hit the ball!");
             // Goi su kien ghi diem o day
             playerScore += scores;
