@@ -6,6 +6,7 @@ public class FootTracker : MonoBehaviour
     public int jointType = 18;  // Khớp AnkleRight (Cổ chân phải)  
     private Rigidbody rb;
 
+    public long userId {  get; private set; }
     void Start()
     {
        // Lấy Rigidbody để xử lý va chạm vật lý 

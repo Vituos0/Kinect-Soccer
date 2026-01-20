@@ -1,20 +1,30 @@
-﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class Wall : MonoBehaviour
 {
+
+
+   // [Header("Settings")]
+
+    //[Header("Components")]
+
     void Awake()
     {
-        Ball.onCollisionWithBall += HandleBallCollision;
+        Ball.onCollisionWithball += HandleBallTouchCollision;
     }
 
     private void OnDestroy()
     {
-        Ball.onCollisionWithBall -= HandleBallCollision;
-    }
-
-    private void HandleBallCollision(Ball ball)
+        Ball.onCollisionWithball -= HandleBallTouchCollision;
+    }  
+    private void HandleBallTouchCollision(Ball ball, Collision TargetCollider)
     {
-        Debug.Log("GOAL!");
-        // xử lý score, effect, sound ở đây
+        if(TargetCollider.gameObject  == gameObject)
+        {
+            Debug.Log("GOAL!");
+            Destroy(ball.gameObject);     
+        }
     }
 }

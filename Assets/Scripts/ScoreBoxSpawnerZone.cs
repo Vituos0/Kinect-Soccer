@@ -8,6 +8,10 @@ public class ScoreBoxSpawnerZone : MonoBehaviour
     private BoxCollider spawnZone;
     public GameObject scoreBoxPrefab;
 
+    [SerializeField] private Transform CellParent;
+
+
+
     public int spawnCount = 20;
 
     public Vector3 minScale = Vector3.one * 0.5f;
@@ -49,8 +53,8 @@ public class ScoreBoxSpawnerZone : MonoBehaviour
                 );
 
                 // random offset nhỏ để tự nhiên hơn
-                pos.x += Random.Range(-cellX * 0.3f, cellX * 0.3f);
-                pos.y += Random.Range(-cellY * 0.3f, cellY * 0.3f);
+              //  pos.x += Random.Range(-cellX * 0.3f, cellX * 0.3f);
+                //pos.y += Random.Range(-cellY * 0.3f, cellY * 0.3f);
 
                 SpawnOne(pos);
                 spawned++;
@@ -61,13 +65,14 @@ public class ScoreBoxSpawnerZone : MonoBehaviour
     void SpawnOne(Vector3 pos)
     {
         // random scale
-        float s = Random.Range(minScale.x, maxScale.x);
+      //  float s = Random.Range(minScale.x, maxScale.x);
+      float  s = 1;
         float radius = s * 0.5f;
 
         // ⭐ CHECK KHÔNG CHẠM
         pos = ResolveScoreBoxOverlap(pos, radius);
 
-        GameObject box = Instantiate(scoreBoxPrefab, pos, Quaternion.identity);
+        GameObject box = Instantiate(scoreBoxPrefab, pos, Quaternion.identity,CellParent);
         box.transform.localScale = Vector3.one * s;
 
         spawnedBoxes.Add(box.transform); // ⭐ lưu lại box đã spawn
@@ -78,15 +83,19 @@ public class ScoreBoxSpawnerZone : MonoBehaviour
     }
 
 
-    void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
-        if (!spawnZone) return;
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireCube(spawnZone.bounds.center, spawnZone.bounds.size);
+        BoxCollider box = GetComponent<BoxCollider>();
+        if (!box) return;
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(box.bounds.center, box.bounds.size);
     }
 
     Vector3 ResolveScoreBoxOverlap(Vector3 pos, float radius, int maxTry = 20)
     {
+        Bounds b = spawnZone.bounds;
+
         for (int i = 0; i < maxTry; i++)
         {
             bool overlap = false;
@@ -100,12 +109,19 @@ public class ScoreBoxSpawnerZone : MonoBehaviour
                 {
                     overlap = true;
 
-                    // đẩy box mới ra xa box cũ
                     Vector3 dir = (pos - other.position).normalized;
                     if (dir == Vector3.zero)
                         dir = Random.insideUnitSphere;
 
+                    dir.z = 0; // ⭐ ép 2D
+
                     pos += dir * (radius + otherRadius - dist);
+
+                    // ⭐⭐ CLAMP LẠI TRONG SPAWN ZONE
+                    pos.x = Mathf.Clamp(pos.x, b.min.x + radius, b.max.x - radius);
+                    pos.y = Mathf.Clamp(pos.y, b.min.y + radius, b.max.y - radius);
+                    pos.z = b.center.z;
+
                     break;
                 }
             }
@@ -114,7 +130,9 @@ public class ScoreBoxSpawnerZone : MonoBehaviour
                 return pos;
         }
 
-        return pos; // nếu vẫn chạm thì trả vị trí cuối
+        return pos;
     }
+
+
 
 }

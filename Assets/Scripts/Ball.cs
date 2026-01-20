@@ -1,49 +1,53 @@
-﻿using System;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
+
     [Header("Actions")]
-    public static Action<Ball> onCollisionWithBall;
+    public static Action< Ball, Collision> onCollisionWithball;
 
-    [Header("Settings")]
-    private bool isDestroyed = false;
+    [Header("Setting")]
+    [SerializeField] private float lifeTime = 10f;
+    private bool isColliedWithPlayer;
+    private Coroutine lifeTimecoroutine;
 
-    private Coroutine lifeCoroutine;
 
+    [Header("Data")]
+    public int lastPlayerTouchball=-1;
+
+
+    // Start is called before the first frame update
     void Start()
     {
-        // Bắt đầu đếm thời gian sống 10s ngay khi spawn
-        lifeCoroutine = StartCoroutine(TimeLife());
+        lifeTimecoroutine = StartCoroutine(TimeLife());
     }
-
-    private void OnCollisionEnter(Collision collision)
+    //=============================XU LY VA CHAM==========================
+    private void OnCollisionEnter(Collision collision)  
     {
-        if (isDestroyed) return;
-
-        if (collision.collider.TryGetComponent<Wall>(out Wall wall))
-        {
-            onCollisionWithBall?.Invoke(this);
-            DestroyBall();
-        }
+        ManageCollison(collision);
     }
 
+    /*
+     Logic xu ly nhu sau: 
+    1. Khi ball va cham voi doi tuong khac, se kiem tra doi tuong do co component Collision khong
+    2.neu co thi goi collider cua doi tuong do 
+    3. sau do se goi su kien onCollisionWithball, truyen doi tuong ball(this) va doi tuong bi va cham(TargetCollider) vao
+    4. Cac doi tuong lang nghe su kien nay co the xu ly logic rieng cua minh trong ham xu ly su kien
+     */
+    private void ManageCollison(Collision collision)
+    {   
+        onCollisionWithball?.Invoke(this, collision);
+         
+    }
+    /*=============Thoi gian ton tai cua ball trong scene===================*/
     IEnumerator TimeLife()
     {
-        yield return new WaitForSeconds(10f);
-        DestroyBall();
-    }
-
-    private void DestroyBall()
-    {
-        if (isDestroyed) return;
-
-        isDestroyed = true;
-
-        if (lifeCoroutine != null)
-            StopCoroutine(lifeCoroutine);
-
+        yield return new WaitForSeconds(lifeTime);
         Destroy(gameObject);
+        Debug.Log("Ball has been destroyed");
     }
+
 }
