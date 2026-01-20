@@ -1,4 +1,5 @@
 using nuitrack;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,11 +11,19 @@ public class Player : MonoBehaviour
 
     [Header("Data")]
     public int playerId;
-   public long lastPlayerTouchball; // Luu id nguoi choi cuoi cung cham vao ball
+    public long lastPlayerTouchball; // Luu id nguoi choi cuoi cung cham vao ball
     public int playerScore;
     public int scores;
+
+    [Header("Components")]
     public FootTracker footTracker;
     Ball ball;
+
+
+    [Header("Actions")]
+    public static Action onCollisionWithBallSound;
+
+
 
 
     private void Awake()
@@ -30,6 +39,7 @@ public class Player : MonoBehaviour
         if (OtherCollider.gameObject == gameObject)
         {
             //SoundManager.Instance.PlayKickShot();
+            onCollisionWithBallSound?.Invoke();
             ball.lastPlayerTouchball = (int)footTracker.userId;
             Debug.Log("Player" + playerId + "hit the ball!");
             // Goi su kien ghi diem o day

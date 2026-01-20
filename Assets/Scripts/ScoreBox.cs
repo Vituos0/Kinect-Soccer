@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,22 +8,21 @@ using UnityEngine.UIElements;
 
 public class ScoreBox : MonoBehaviour
 {
-   
-    int scoreBall;
 
+    [Header("Components")]
+    [SerializeField] private GameObject hitEffect;
+    int scoreBall;
     Text scoreText;
 
 
-    [SerializeField] private GameObject hitEffect;
-
-
+    [Header("Actions")]
+    public static Action onHitScoreBoxSound;
 
     private void Awake()
     {
         scoreText = GetComponentInChildren<Text>();
 
         Ball.onCollisionWithball += OnHandleEvent;
-
 
     }
     private void OnDestroy()
@@ -37,11 +37,11 @@ public class ScoreBox : MonoBehaviour
 
     private void OnHandleEvent(Ball ball, Collision target)
     {
-
         if (target.gameObject == gameObject)
          {
             if (ball.lastPlayerTouchball != -1)
             {
+                onHitScoreBoxSound?.Invoke();  
                //SoundManager.Instance.PlayHitScore();
                GameManager.Instance.AddScore(ball.lastPlayerTouchball, scoreBall);
                 StartCoroutine(DisappearRoutine());

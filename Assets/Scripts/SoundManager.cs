@@ -9,6 +9,7 @@ public class SoundManager : MonoBehaviour
     public AudioSource kickShotSource;
     public AudioSource hitScoreSource;
 
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -16,9 +17,19 @@ public class SoundManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
         Instance = this;
         DontDestroyOnLoad(gameObject);
+    }
+    private void Start()
+    {  
+        Player.onCollisionWithBallSound += PlayKickShot;
+        ScoreBox.onHitScoreBoxSound += PlayHitScore;
+    }
+
+    private void OnDestroy()
+    {
+        Player.onCollisionWithBallSound -= PlayKickShot;
+        ScoreBox.onHitScoreBoxSound -= PlayHitScore;
     }
 
     public void PlayKickShot()
