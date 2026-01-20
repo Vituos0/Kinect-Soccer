@@ -42,12 +42,16 @@ public class Ball : MonoBehaviour
         onCollisionWithball?.Invoke(this, collision);
          
     }
+
+
     /*=============Thoi gian ton tai cua ball trong scene===================*/
     IEnumerator TimeLife()
     {
         yield return new WaitForSeconds(lifeTime);
         Destroy(gameObject);
         Debug.Log("Ball has been destroyed");
+
+
     }
 
 }

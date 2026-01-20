@@ -44,9 +44,7 @@ public class ScoreBox : MonoBehaviour
                 onHitScoreBoxSound?.Invoke();  
                //SoundManager.Instance.PlayHitScore();
                GameManager.Instance.AddScore(ball.lastPlayerTouchball, scoreBall);
-                StartCoroutine(DisappearRoutine());
-
-                Debug.Log("effectttttttttttttttttt");
+                StartCoroutine(DisappearRoutine());             
             }
         }
     }
@@ -68,5 +66,6 @@ public class ScoreBox : MonoBehaviour
         // 5. Lúc này mới thực sự xóa toàn bộ Item
         Destroy(gameObject);
     }
+
 
 }
