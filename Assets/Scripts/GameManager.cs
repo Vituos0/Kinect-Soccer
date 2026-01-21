@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Settings")]
     UIManager uimanager;
-
+    ScoreBoxSpawnerBeeZone scoreBoxSpawner;
 
     [Header("Actions")]
     public static Action<int ,int> onScoreChanged;
@@ -83,6 +83,9 @@ public class GameManager : MonoBehaviour
         // 3. Thông báo cho UI cập nhật lại số 0
         onScoreChanged?.Invoke(0, 0);
         onScoreChanged?.Invoke(1, 0);
+
+        SoundManager.Instance.PlayBGM();
+        scoreBoxSpawner.SpawnAll();
     }
 
 

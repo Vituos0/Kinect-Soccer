@@ -28,10 +28,10 @@ public class ScoreBoxSpawnerBeeZone : MonoBehaviour
     void Start()
     {
         spawnZone = GetComponent<BoxCollider>();
-        SpawnAll();
+        
     }
 
-    void SpawnAll()
+   public void SpawnAll()
     {
         Bounds b = spawnZone.bounds;
 

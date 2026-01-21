@@ -4227,8 +4227,7 @@ public class KinectManager : MonoBehaviour
 				}
 				
 				Debug.Log("Adding user " + uidIndex + ", ID: " + userId + ", Body: " + bodyIndex + ", Time: " + Time.realtimeSinceStartup);
-
-				dictUserIdToIndex[userId] = bodyIndex;
+                dictUserIdToIndex[userId] = bodyIndex;
 				dictUserIdToTime[userId] = Time.time;
 				alUserIds.Add(userId);
 
@@ -4244,6 +4243,11 @@ public class KinectManager : MonoBehaviour
 							calibrationText.text = "";
 						}
 					}
+				if(userId ==2)
+					{	
+                        Debug.Log("Ready to play!");
+						GameManager.Instance.StartGame();
+                    }
 				}
 
 				// update userIds of the avatar controllers

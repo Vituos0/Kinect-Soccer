@@ -13,7 +13,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI timeText;
     [SerializeField] private GameObject gameOverPanel; 
     [SerializeField] private TextMeshProUGUI[] finalScoreTexts;
-    public Button StartButton;
+  //  public Button StartButton;
 
 
 
